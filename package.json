@@ -1,0 +1,14 @@
+{
+  "name": "lifeinbox",
+  "private": true,
+  "packageManager": "pnpm@11.19.0",
+  "scripts": {
+    "dev": "pnpm --filter @lifeinbox/web dev",
+    "build": "pnpm --filter @lifeinbox/web build",
+    "lint": "pnpm --filter @lifeinbox/web lint",
+    "typecheck": "pnpm --filter @lifeinbox/web typecheck",
+    "test:e2e": "pnpm --filter @lifeinbox/web prepare:ocr && playwright test",
+    "generate:api": "pnpm --filter @lifeinbox/web generate:api"
+  },
+  "devDependencies": {"@playwright/test": "^1.58.0", "@electric-sql/pglite": "^0.3.0"}
+}
