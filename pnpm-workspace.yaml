@@ -1,5 +1,6 @@
 packages:
   - apps/web
+  - apps/landing
 allowBuilds:
   tesseract.js: false
   unrs-resolver: true

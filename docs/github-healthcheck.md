@@ -37,14 +37,8 @@ GET 호출은 PostgREST의 읽기 전용 트랜잭션으로 실행됩니다.
 
 ## GitHub 설정
 
-이 저장소 전체를 올리거나, 다음 세 파일만 별도의 비공개 저장소에 올려 사용할 수 있습니다.
-전용 저장소를 사용하면 LifeInbox 소스와 로컬 환경변수를 업로드할 필요가 없습니다.
-
-```text
-.github/workflows/supabase-healthcheck.yml
-scripts/check_supabase_health.py
-README.md  # 이 문서의 사본
-```
+전체 프로젝트의 공개 저장소 `movenb3at/LifeInbox`에서 실행합니다.
+소개 페이지 배포와 헬스체크는 서로 다른 워크플로이며, 헬스체크가 로컬 앱 서버를 실행하지는 않습니다.
 
 워크플로 파일은 GitHub 저장소의 기본 브랜치에 있어야 합니다. 저장소의
 Settings → Secrets and variables → Actions에서 아래 두 값을 설정해주세요.

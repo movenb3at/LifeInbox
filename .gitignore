@@ -1,6 +1,7 @@
 node_modules/
 .next/
 .next-e2e/
+apps/web/next-env.d.ts
 .venv/
 __pycache__/
 .pytest_cache/
@@ -10,7 +11,9 @@ __pycache__/
 .env
 .env.local
 .env.*.local
+.env.*
 !.env.example
+dist/
 playwright-report/
 test-results/
 .local/

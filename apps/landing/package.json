@@ -1,0 +1,20 @@
+{
+  "name": "@lifeinbox/landing",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "check": "tsc --noEmit && eslint src"
+  },
+  "dependencies": { "animejs": "4.5.0", "three": "0.186.1" },
+  "devDependencies": {
+    "@types/three": "^0.186.0",
+    "typescript": "5.9.3",
+    "vite": "8.3.4",
+    "eslint": "9.39.5",
+    "typescript-eslint": "8.71.1"
+  }
+}

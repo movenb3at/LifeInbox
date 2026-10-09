@@ -2,17 +2,19 @@
 
 나에게 들어온 정보를 한곳에 모으고, 잊지 않고 처리하는 개인 생활 Inbox입니다.
 
+[기능 소개 페이지](https://movenb3at.github.io/LifeInbox/) · [소개 페이지 개발·배포](docs/github-pages.md)
+
 MVP 1: 이메일 인증 가입·로그인, 개인 Space 자동 생성, Item CRUD·완료·보관, 11종 Type, 마감·일정, 6종 통화 금액, 한국어 검색, Dashboard, Calendar, 반응형 UI를 제공합니다. 금액은 통화별로 합산하며 환산하지 않습니다. 우선순위는 없습니다.
 
 확장 구현: 여러 Personal/Shared Inbox, 기본 Personal 변경, 역할별 권한, 통합 조회와 공간 필터, Item 이동·독립 복사를 제공합니다. 기존 개인 Inbox와 항목은 유지합니다. 자동화에는 수동 원문 수집, 날짜·금액·종류 분석, 후보 확인·수정, 신뢰도 기준 자동 저장, AND 규칙·우선순위·자동 분류, 앱 내 알림과 실행 근거 기록이 포함됩니다. Item 우선순위와 자동화 Rule 우선순위는 별개입니다.
 
 ## 시작하기
 
-이 PC에서 다시 실행할 때는 프로젝트 폴더의 `start-lifeinbox.cmd`를 더블클릭해주세요.
+Windows에서 환경변수와 DB 설정을 마쳤다면 프로젝트 폴더의 `start-lifeinbox.cmd`를 더블클릭해주세요.
 웹·FastAPI·알림 Worker를 함께 실행하며, Node/pnpm이 PATH에 없으면 Codex 내장 런타임을 찾습니다.
 실행 창은 사용 중 열어두고, 종료할 때는 그 창에서 Ctrl+C를 눌러주세요.
 이미 3000·8000 포트를 사용하는 서버가 있으면 새로 실행하지 않고 안내 메시지를 표시합니다.
-접속 주소는 http://localhost:3000 입니다. 이 PC의 기존 DB·환경변수는 다시 설정할 필요가 없습니다.
+접속 주소는 http://localhost:3000 입니다. 기존 DB·환경변수가 준비되어 있으면 다시 설정할 필요가 없습니다.
 
 필요한 도구는 Node.js 24, pnpm 11, Python 3.11 이상, uv입니다. Supabase 관리형 PostgreSQL을 사용하므로 로컬 Docker 설치는 필요하지 않습니다.
 
@@ -21,7 +23,8 @@ pnpm install --frozen-lockfile
 ```
 
 환경변수와 프로젝트 설정은 [Supabase 설정 안내](docs/setup.md)를 따라주세요.
-MCP로 스키마를 적용한 프로젝트는 설정 안내에 따라 실제 적용된 버전과 Alembic 기록을 맞춰주세요. 이 PC의 전용 프로젝트에는 0007까지 적용되어 있으므로 DB 설정을 다시 실행할 필요가 없습니다.
+MCP로 스키마를 적용한 프로젝트는 설정 안내에 따라 실제 적용된 버전과 Alembic 기록을 맞춰주세요.
+새 프로젝트에는 `0007`까지 적용합니다. 이미 적용했다면 DB 설정을 다시 실행할 필요가 없습니다.
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\setup-db.ps1
@@ -64,7 +67,7 @@ Spaces 화면에서 개인·공유 공간을 만들고 기본 Inbox를 지정할
 
 자동화의 초기 수준은 “확인 후 추가”입니다. 자동화 화면에서 원문을 붙여넣고 후보를 확인해주세요. 자동 저장은 “자동 저장” 수준과 신뢰도 기준을 설정한 후 적용되며, Item 변경·알림 규칙은 “자동 실행” 수준에서 적용됩니다. 기본 자동 저장 기준은 95%이므로 일반 텍스트의 보수적 분석 결과는 확인 대상으로 남을 수 있습니다.
 
-Email/Calendar 계정 연결·자동 동기화, AI 분석·자연어 규칙·학습, 이메일·기기 푸시, 외부 결제, Update·첨부 화면, 공개 배포는 후속 범위입니다.
+Email/Calendar 계정 연결·자동 동기화, AI 분석·자연어 규칙·학습, 이메일·기기 푸시, 외부 결제, Update·첨부 화면과 앱 서버의 공개 배포는 후속 범위입니다.
 
 자동화 고도화 Phase 1에는 필드별 신뢰도·확인 근거, 카드에서 공간·종류 바로 수정,
 한 원본의 여러 후보, 전역·공간·수집 경로 규칙 범위, 분석 전 무시가 포함됩니다.
@@ -88,5 +91,24 @@ PNG/JPEG/WebP, 한 파일 5 MiB·25백만 픽셀 이하, 본인 원본 최대 50
 `.github/workflows/supabase-healthcheck.yml`은 매일 한국 시간 오전 9시 17분에
 Supabase의 읽기 전용 DB 함수에 HTTP 요청을 보냅니다. PC와 로컬 서버를 켤 필요가 없습니다.
 예약 실행은 GitHub 기본 브랜치에 파일을 올리고 Project URL 변수·공개용 키 Secret을 설정한 뒤 활성화됩니다.
-로컬 파일만 준비한 상태에서는 자동 실행되지 않습니다. 별도의 작은 비공개 저장소에서도 사용할 수 있습니다.
+로컬 파일만 준비한 상태에서는 자동 실행되지 않습니다. 전체 프로젝트와 같은 저장소에서 관리합니다.
 설정과 일시정지 방지의 한계는 [일일 헬스체크 안내](docs/github-healthcheck.md)를 참고해주세요.
+
+## 3D 소개 페이지
+
+`apps/landing`은 Vite·TypeScript·Three.js·Anime.js v4로 만든 정적 소개 페이지입니다.
+정보 카드와 Inbox 트레이가 스크롤에 맞춰 수집·분류·검토·정리된 장면으로 바뀝니다.
+밝은 배경에 기능별 합성 화면을 보여주며, 기존 앱·인증·API·DB와 독립적으로 빌드합니다.
+
+```powershell
+pnpm landing:dev
+pnpm landing:check
+pnpm landing:build
+pnpm test:landing
+```
+
+개발 주소는 `http://127.0.0.1:5173/LifeInbox/`, 프로덕션 미리보기는
+`pnpm landing:preview` 실행 후 `http://127.0.0.1:4173/LifeInbox/`입니다.
+모션 감소·WebGL 실패 시에는 SVG를 표시하며 JavaScript 없이도 본문을 읽을 수 있습니다.
+구조는 [소개 페이지 설계](docs/landing-design.md), Pages와 공개 파일 기준은
+[GitHub 배포 안내](docs/github-pages.md)에 있습니다.

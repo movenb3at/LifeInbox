@@ -8,7 +8,12 @@
     "lint": "pnpm --filter @lifeinbox/web lint",
     "typecheck": "pnpm --filter @lifeinbox/web typecheck",
     "test:e2e": "pnpm --filter @lifeinbox/web prepare:ocr && playwright test",
-    "generate:api": "pnpm --filter @lifeinbox/web generate:api"
+    "generate:api": "pnpm --filter @lifeinbox/web generate:api",
+    "landing:dev": "pnpm --filter @lifeinbox/landing dev",
+    "landing:build": "pnpm --filter @lifeinbox/landing build",
+    "landing:preview": "pnpm --filter @lifeinbox/landing preview",
+    "landing:check": "pnpm --filter @lifeinbox/landing check",
+    "test:landing": "playwright test --config playwright.landing.config.ts"
   },
   "devDependencies": {"@playwright/test": "^1.58.0", "@electric-sql/pglite": "^0.3.0"}
 }
