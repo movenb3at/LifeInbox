@@ -50,11 +50,16 @@ export function connectStory(setProgress: (progress: number) => void) {
     return Math.min(7, current + Math.max(0, Math.min(1, (position - start) / Math.max(1, end - start))));
   }
   measure();
-  const observer = onScroll({ target: story, enter: "top top", leave: "bottom bottom", sync: .35 });
+  // Scene poses already interpolate between chapters; keep their position tied
+  // to scrolling even when software rendering produces fewer frames.
+  const observer = onScroll({
+    target: story, enter: "top top", leave: "bottom bottom", sync: true,
+    // ScrollObserver runs after seeking the timeline, including its zero frame.
+    onUpdate: () => setProgress(poseProgress()),
+  });
   const timeline = createTimeline({
     autoplay: observer,
     defaults: { ease: "linear" },
-    onUpdate: () => setProgress(poseProgress()),
   }).add(state, { fraction: [0, 1], duration: 7000 });
   const entrances = chapters.slice(1).map(chapter => {
     const entranceObserver = onScroll({ target: chapter, enter: "bottom top+=70%", leave: "top bottom", repeat: true });

@@ -56,6 +56,24 @@ test("빠른 이동과 크기 변경 후에도 장면과 경로가 맞는다", a
   expect(size.width / size.rect).toBeLessThanOrEqual(1.51);
 });
 
+test("CPU 속도가 낮아도 빠른 이동과 역방향 위치를 유지한다", async ({ page }) => {
+  await page.goto("./");
+  const stage = page.locator("#scene-stage");
+  await expect(stage).toHaveAttribute("data-renderer", "webgl");
+  const session = await page.context().newCDPSession(page);
+  await session.send("Emulation.setCPUThrottlingRate", { rate: 4 });
+  try {
+    for (const chapter of ["search", "capture", "home"]) {
+      await atChapter(page, chapter);
+      await expect.poll(async () => Number(await stage.getAttribute("data-progress")))
+        .toBeCloseTo(chapters.indexOf(chapter), 1);
+    }
+  } finally {
+    await session.send("Emulation.setCPUThrottlingRate", { rate: 1 });
+    await session.detach();
+  }
+});
+
 test("데스크톱 포인터의 작은 기울기를 스크롤 위치와 합성한다", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "포인터 반응은 데스크톱에서만 제공합니다.");
   await page.goto("./");
